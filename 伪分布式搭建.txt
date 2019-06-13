@@ -1,0 +1,116 @@
+1.启动查看ip：命令ifconfig
+2.看虚拟机网络配置 设置VMware软件的net模式的网段为100
+3.配置IP：vi /etc/sysconfig/network-scripts/ifcfg-eth0
+	DEVICE=eth0
+	ONBOOT=yes
+	BOOTPROTO=static
+	IPADDR=192.168.100.101
+	GATEWAY=192.168.100.2
+	NETMASK=255.255.255.0
+	DNS1=114.114.1114.114
+4.重启网卡：service network restart
+5.测试一下：ping 192.168.100.2
+	退出操作:ctrl+c
+6.关闭防火墙：
+	chkconfig iptables off
+7.要求在/home/目录下，创建一个bigdata目录；
+   命令：mkdir bigdata
+8.切换到/simple/soft目录下，解压jdk安装包；(看实验步骤jdk、hadoop包在哪里)
+   命令：tar -zxvf jdk安装包名 -C /home/bigdata
+             tar -zxvf hadoop安装包名 -C /home/bigdata
+9.切换到/home/bigdata目录下，查看
+10. 进入到jdk的安装目录下，然后查看当前工作目录：pwd    
+11.配置jdk、hadoop
+配置JDK的环境变量：
+vim /root/.bash_profile
+
+PATH=$PATH:$HOME/bin
+export PATH
+export JAVA_HOME=/home/bigdata/jdk1.8.0_192
+export PATH=$PATH:$JAVA_HOME/bin
+
+配置hadoop的环境变量：
+export HADOOP_HOME=/home/bigdata/hadoop-2.7.1
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sb
+
+   刷新：
+  source /root/.bash_profile
+   验证：
+   java version
+  hadoop  version
+12.   配置hadoop的配置文件
+   cd /home/bigdata/hadoop-2.4.1/etc/hadoop  
+13.   配置文件
+
+注：这几个里面有一个文件后缀不是sh   你需要用mv 那个文件的全名是.xml 空格后面写上到.sh就好
+如：mv hadoop-env.sh.xml hadoop-env.sh
+
+ 修改1)：进入hadoop-env.sh
+  命令： vim hadoop-env.sh
+    export JAVA_HOME=java的安装路径
+
+在这里写
+# The java implementation to use.
+export JAVA_HOME=/home/bigdata/jdk1.8.0_192
+
+  修改2）core-site.xml
+
+<configuration>
+ <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+ </property>
+
+        <property>
+ <name>hadoop.tmp.dir</name>
+ <value>/home/bigdata/hadoop-2.7.1/data/tmp</value>
+         </property>
+</configuration
+
+修改3）hdfs-site.xml
+
+<configuration>
+        <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+        </property>
+</configuration>
+
+修改4 ）vim yarn-site.xml
+
+<configuration>
+        <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+        </property>
+</configuration>：  
+
+14.启动HDFS集群：
+   命令：start-dfs.sh
+15.使用查看进程的命令查看：jps
+   namenode
+   secondarynamenode
+   datanode
+   jps
+16.start-yarn.sh
+
+最后jps查看
+3155 NodeManager
+3715 DataNode
+3610 NameNode
+4044 Jps
+3052 ResourceManager
+3886 SecondaryNameNode
+
+
+
+
+
+
+
+
+
+
+
+
+
