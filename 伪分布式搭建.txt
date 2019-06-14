@@ -33,11 +33,11 @@ export PATH=$PATH:$JAVA_HOME/bin
 export HADOOP_HOME=/home/bigdata/hadoop-2.7.1
 export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sb
 
-   刷新：
-  source /root/.bash_profile
-   验证：
-   java version
-  hadoop  version
+刷新：
+source /root/.bash_profile
+验证：
+java -version
+hadoop  version
 12.   配置hadoop的配置文件
    cd /home/bigdata/hadoop-2.4.1/etc/hadoop  
 13.   配置文件
@@ -76,7 +76,16 @@ export JAVA_HOME=/home/bigdata/jdk1.8.0_192
         </property>
 </configuration>
 
-修改4 ）vim yarn-site.xml
+14.启动HDFS集群：
+   命令：start-dfs.sh
+15.使用查看进程的命令查看：jps
+   namenode
+   secondarynamenode
+   datanode
+   jps
+
+16 修改4 ）
+vim yarn-site.xml
 
 <configuration>
         <property>
@@ -85,14 +94,8 @@ export JAVA_HOME=/home/bigdata/jdk1.8.0_192
         </property>
 </configuration>：  
 
-14.启动HDFS集群：
-   命令：start-dfs.sh
-15.使用查看进程的命令查看：jps
-   namenode
-   secondarynamenode
-   datanode
-   jps
-16.start-yarn.sh
+
+17.start-yarn.sh
 
 最后jps查看
 3155 NodeManager
